@@ -4,20 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To Do Lizard</title>
-    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20261118-1009">
-    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20261118-1009">
-    <link rel="stylesheet" href="styles.css?v=20261118-1009">
+    <meta name="theme-color" content="#fffdf6">
+    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20261118-1021">
+    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20261118-1021">
+    <link rel="stylesheet" href="styles.css?v=20261118-1021">
   </head>
   <body>
     <main class="app-shell">
       <header class="top-bar">
         <div class="brand-lockup">
-          <img src="assets/yelling-lizard-logo.png?v=20261118-1009" alt="" class="brand-logo" width="72" height="72">
+          <img src="assets/yelling-lizard-logo.png?v=20261118-1021" alt="" class="brand-logo" width="72" height="72">
           <div>
-            <p class="eyebrow">Browser-stored task list</p>
+            <p class="eyebrow">Your daily planner</p>
             <div class="title-row">
               <h1>To Do Lizard</h1>
-              <span class="tool-symbol" aria-hidden="true">[ ]</span>
             </div>
           </div>
         </div>
@@ -31,75 +31,91 @@
         </div>
       </header>
 
-      <section class="composer-panel" aria-labelledby="add-task-title">
-        <div class="composer-heading">
-          <span id="add-task-title" class="control-group-title">New task</span>
-          <span class="storage-note">Saved in this browser</span>
-        </div>
-        <form id="taskForm" class="task-form">
-          <div class="task-field task-title-field">
-            <label class="sr-only" for="taskTitle">Task</label>
-            <input id="taskTitle" class="task-title-input" type="text" maxlength="300" autocomplete="off" placeholder="What needs to be done?" required>
+      <div class="planner-page">
+        <div class="planner-binding" aria-hidden="true"><span></span><span></span></div>
+        <section class="planner-heading" aria-labelledby="planner-title">
+          <time class="calendar-leaf" id="planner-calendar" aria-label="Today's date">
+            <span class="calendar-month" id="planner-month"></span>
+            <span class="calendar-day" id="planner-day"></span>
+          </time>
+          <div>
+            <p class="planner-weekday" id="planner-weekday"></p>
+            <h2 id="planner-title">A little more done.</h2>
+            <p class="planner-date" id="planner-date"></p>
+          </div>
+        </section>
+
+        <section class="composer-panel" aria-labelledby="add-task-title">
+          <div class="composer-heading">
+            <span id="add-task-title" class="control-group-title">New task</span>
+            <span class="storage-note">Saved in this browser</span>
+          </div>
+          <form id="taskForm" class="task-form">
+            <div class="task-field task-title-field">
+              <label class="sr-only" for="taskTitle">Task</label>
+              <input id="taskTitle" class="task-title-input" type="text" maxlength="300" autocomplete="off" placeholder="What needs to be done?" required>
+            </div>
+
+            <div class="task-field">
+              <label class="field-label" for="taskDueDate">Due date <span class="field-optional">Optional</span></label>
+              <input id="taskDueDate" type="date">
+            </div>
+
+            <div class="task-field">
+              <label class="field-label" for="taskPriority">Priority</label>
+              <select id="taskPriority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+
+            <button type="submit" class="primary-button">Add task</button>
+          </form>
+        </section>
+
+        <section class="status-row" aria-live="polite">
+          <div id="status" class="status-pill status-valid">Your list is stored locally.</div>
+          <div id="stats" class="stats">0 active / 0 completed</div>
+        </section>
+
+        <section class="task-workspace" aria-label="To-do list">
+          <div class="task-toolbar">
+            <h2 class="workspace-title">Your tasks</h2>
+            <div class="filter-tabs" role="group" aria-label="Task filter">
+              <button class="filter-tab active" type="button" data-filter="all" aria-pressed="true">All <span id="allCount">0</span></button>
+              <button class="filter-tab" type="button" data-filter="active" aria-pressed="false">Active <span id="activeCount">0</span></button>
+              <button class="filter-tab" type="button" data-filter="completed" aria-pressed="false">Completed <span id="completedCount">0</span></button>
+            </div>
+
+            <div class="view-controls">
+              <label class="sr-only" for="taskSearch">Search tasks</label>
+              <input id="taskSearch" type="search" placeholder="Search tasks">
+              <label class="field-label" for="taskSort">Sort</label>
+              <select id="taskSort">
+                <option value="created-desc">Newest</option>
+                <option value="created-asc">Oldest</option>
+                <option value="due">Due date</option>
+                <option value="priority">Priority</option>
+                <option value="alphabetical">A-Z</option>
+              </select>
+            </div>
           </div>
 
-          <div class="task-field">
-            <label class="field-label" for="taskDueDate">Due date <span class="field-optional">Optional</span></label>
-            <input id="taskDueDate" type="date">
+          <div id="emptyState" class="empty-state">
+            <strong>No tasks yet.</strong>
+            <span>Add one above and it will stay in this browser.</span>
           </div>
-
-          <div class="task-field">
-            <label class="field-label" for="taskPriority">Priority</label>
-            <select id="taskPriority">
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-
-          <button type="submit" class="primary-button">Add task</button>
-        </form>
-      </section>
-
-      <section class="status-row" aria-live="polite">
-        <div id="status" class="status-pill status-valid">Your list is stored locally.</div>
-        <div id="stats" class="stats">0 active / 0 completed</div>
-      </section>
-
-      <section class="task-workspace" aria-label="To-do list">
-        <div class="task-toolbar">
-          <div class="filter-tabs" role="group" aria-label="Task filter">
-            <button class="filter-tab active" type="button" data-filter="all" aria-pressed="true">All <span id="allCount">0</span></button>
-            <button class="filter-tab" type="button" data-filter="active" aria-pressed="false">Active <span id="activeCount">0</span></button>
-            <button class="filter-tab" type="button" data-filter="completed" aria-pressed="false">Completed <span id="completedCount">0</span></button>
-          </div>
-
-          <div class="view-controls">
-            <label class="sr-only" for="taskSearch">Search tasks</label>
-            <input id="taskSearch" type="search" placeholder="Search tasks">
-            <label class="field-label" for="taskSort">Sort</label>
-            <select id="taskSort">
-              <option value="created-desc">Newest</option>
-              <option value="created-asc">Oldest</option>
-              <option value="due">Due date</option>
-              <option value="priority">Priority</option>
-              <option value="alphabetical">A-Z</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="emptyState" class="empty-state">
-          <strong>No tasks yet.</strong>
-          <span>Add one above and it will stay in this browser.</span>
-        </div>
-        <ul id="taskList" class="task-list" aria-label="Tasks"></ul>
-      </section>
+          <ul id="taskList" class="task-list" aria-label="Tasks"></ul>
+        </section>
+      </div>
 
       <footer class="app-footer">
         <span>Stored locally. Export a backup for anything important.</span>
         <span>
           <a href="https://www.davidbreyer.com/tools/terms/">Terms/Privacy</a>
           <a href="https://github.com/davidbreyer/todo-lizard" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span id="releaseStamp" data-version>Version: 20261118-1009</span>
+          <span id="releaseStamp" data-version>Version: 20261118-1021</span>
         </span>
       </footer>
     </main>
@@ -114,24 +130,34 @@
           <button class="task-title" type="button" title="Edit task"></button>
           <div class="task-meta"></div>
           <form class="edit-form hidden">
-            <label class="sr-only">Task title</label>
-            <input class="edit-title" type="text" maxlength="300" required>
-            <label class="field-label">Due</label>
-            <input class="edit-due-date" type="date">
-            <label class="field-label">Priority</label>
-            <select class="edit-priority">
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-              <option value="low">Low</option>
-            </select>
+            <label class="edit-title-field">
+              <span class="sr-only">Task title</span>
+              <input class="edit-title" type="text" maxlength="300" required>
+            </label>
+            <label class="edit-field">
+              <span class="field-label">Due date</span>
+              <input class="edit-due-date" type="date">
+            </label>
+            <label class="edit-field">
+              <span class="field-label">Priority</span>
+              <select class="edit-priority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
             <button class="save-edit primary-button" type="submit">Save</button>
             <button class="cancel-edit" type="button">Cancel</button>
           </form>
         </div>
+        <time class="task-date-stamp hidden">
+          <span class="task-date-month"></span>
+          <span class="task-date-day"></span>
+        </time>
         <button class="delete-task icon-button" type="button" aria-label="Delete task" title="Delete task">×</button>
       </li>
     </template>
 
-    <script src="script.js?v=20261118-1009"></script>
+    <script src="script.js?v=20261118-1021"></script>
   </body>
 </html>

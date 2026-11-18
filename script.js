@@ -2,7 +2,7 @@ const STORAGE_KEY = "todo-lizard:v1";
 const SETTINGS_KEY = "todo-lizard:settings:v1";
 const MAX_IMPORT_BYTES = 1_000_000;
 const MAX_TASKS = 5000;
-const appRelease = "20261118-1009";
+const appRelease = "20261118-1021";
 
 const taskForm = document.querySelector("#taskForm");
 const taskTitle = document.querySelector("#taskTitle");
@@ -32,6 +32,7 @@ let editingTaskId = null;
 taskSearch.value = settings.search;
 taskSort.value = settings.sort;
 renderReleaseStamp();
+renderPlannerDate();
 render();
 
 taskForm.addEventListener("submit", addTask);
@@ -48,6 +49,20 @@ importButton.addEventListener("click", () => importInput.click());
 importInput.addEventListener("change", importTasks);
 clearCompletedButton.addEventListener("click", clearCompletedTasks);
 window.addEventListener("storage", handleStorageChange);
+window.addEventListener("pageshow", renderPlannerDate);
+setInterval(renderPlannerDate, 60_000);
+
+function renderPlannerDate() {
+  const today = new Date();
+  const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const calendar = document.querySelector("#planner-calendar");
+  calendar.dateTime = date;
+  calendar.setAttribute("aria-label", new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(today));
+  document.querySelector("#planner-month").textContent = new Intl.DateTimeFormat(undefined, { month: "short" }).format(today);
+  document.querySelector("#planner-day").textContent = today.getDate();
+  document.querySelector("#planner-weekday").textContent = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(today);
+  document.querySelector("#planner-date").textContent = new Intl.DateTimeFormat(undefined, { month: "long", day: "numeric", year: "numeric" }).format(today);
+}
 
 function addTask(event) {
   event.preventDefault();
@@ -217,6 +232,7 @@ function renderTask(task) {
   const title = fragment.querySelector(".task-title");
   const meta = fragment.querySelector(".task-meta");
   const editForm = fragment.querySelector(".edit-form");
+  const dateStamp = fragment.querySelector(".task-date-stamp");
 
   item.dataset.taskId = task.id;
   item.classList.toggle("is-completed", task.completed);
@@ -226,6 +242,17 @@ function renderTask(task) {
   title.textContent = task.title;
   title.setAttribute("aria-label", `Edit ${task.title}`);
   meta.replaceChildren(...renderTaskMeta(task));
+  item.classList.toggle("has-due-date", Boolean(task.dueDate) && task.id !== editingTaskId);
+  item.classList.toggle("is-editing", task.id === editingTaskId);
+  if (task.dueDate && task.id !== editingTaskId) {
+    const [year, month, day] = task.dueDate.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
+    dateStamp.classList.remove("hidden");
+    dateStamp.dateTime = task.dueDate;
+    dateStamp.setAttribute("aria-label", `Due ${formatDate(task.dueDate)}`);
+    dateStamp.querySelector(".task-date-month").textContent = new Intl.DateTimeFormat(undefined, { month: "short" }).format(date);
+    dateStamp.querySelector(".task-date-day").textContent = date.getDate();
+  }
 
   if (task.id === editingTaskId) {
     title.classList.add("hidden");

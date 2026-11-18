@@ -2,7 +2,7 @@ const STORAGE_KEY = "todo-lizard:v1";
 const SETTINGS_KEY = "todo-lizard:settings:v1";
 const MAX_IMPORT_BYTES = 1_000_000;
 const MAX_TASKS = 5000;
-const appRelease = "20261118-0943";
+const appRelease = "20261118-1009";
 
 const taskForm = document.querySelector("#taskForm");
 const taskTitle = document.querySelector("#taskTitle");

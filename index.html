@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To Do Lizard</title>
-    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20261118-0943">
-    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20261118-0943">
-    <link rel="stylesheet" href="styles.css?v=20261118-0943">
+    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20261118-1009">
+    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20261118-1009">
+    <link rel="stylesheet" href="styles.css?v=20261118-1009">
   </head>
   <body>
     <main class="app-shell">
       <header class="top-bar">
         <div class="brand-lockup">
-          <img src="assets/yelling-lizard-logo.png?v=20261118-0943" alt="" class="brand-logo" width="72" height="72">
+          <img src="assets/yelling-lizard-logo.png?v=20261118-1009" alt="" class="brand-logo" width="72" height="72">
           <div>
             <p class="eyebrow">Browser-stored task list</p>
             <div class="title-row">
@@ -37,18 +37,24 @@
           <span class="storage-note">Saved in this browser</span>
         </div>
         <form id="taskForm" class="task-form">
-          <label class="sr-only" for="taskTitle">Task</label>
-          <input id="taskTitle" class="task-title-input" type="text" maxlength="300" autocomplete="off" placeholder="What needs to be done?" required>
+          <div class="task-field task-title-field">
+            <label class="sr-only" for="taskTitle">Task</label>
+            <input id="taskTitle" class="task-title-input" type="text" maxlength="300" autocomplete="off" placeholder="What needs to be done?" required>
+          </div>
 
-          <label class="field-label" for="taskDueDate">Due</label>
-          <input id="taskDueDate" type="date">
+          <div class="task-field">
+            <label class="field-label" for="taskDueDate">Due date <span class="field-optional">Optional</span></label>
+            <input id="taskDueDate" type="date">
+          </div>
 
-          <label class="field-label" for="taskPriority">Priority</label>
-          <select id="taskPriority">
-            <option value="normal">Normal</option>
-            <option value="high">High</option>
-            <option value="low">Low</option>
-          </select>
+          <div class="task-field">
+            <label class="field-label" for="taskPriority">Priority</label>
+            <select id="taskPriority">
+              <option value="normal">Normal</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
 
           <button type="submit" class="primary-button">Add task</button>
         </form>
@@ -93,7 +99,7 @@
         <span>
           <a href="https://www.davidbreyer.com/tools/terms/">Terms/Privacy</a>
           <a href="https://github.com/davidbreyer/todo-lizard" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span id="releaseStamp" data-version>Version: 20261118-0943</span>
+          <span id="releaseStamp" data-version>Version: 20261118-1009</span>
         </span>
       </footer>
     </main>
@@ -126,6 +132,6 @@
       </li>
     </template>
 
-    <script src="script.js?v=20261118-0943"></script>
+    <script src="script.js?v=20261118-1009"></script>
   </body>
 </html>
